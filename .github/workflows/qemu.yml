@@ -22,7 +22,7 @@ jobs:
       run: mkdir -p qemu/build ;
            cd qemu/build ;
            pwd;
-           ../configure --enable-debug &&
+           ../configure --disable-git-update --enable-debug &&
            make
     - name: Upload a QEMU Build Artifacts
       uses: actions/upload-artifact@v2.2.1
