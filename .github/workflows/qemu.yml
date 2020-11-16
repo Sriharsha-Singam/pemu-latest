@@ -18,11 +18,9 @@ jobs:
       uses: textbook/git-checkout-submodule-action@master
     - name: Get Packages
       run: sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev -y
-    - name: Go To QEMU
-      run: cd qemu; pwd
     - name: Build Qemu
-      run: mkdir -p build ;
-           cd build ;
+      run: mkdir -p qemu/build ;
+           cd qemu/build ;
            pwd;
            ../configure --enable-debug &&
            make
