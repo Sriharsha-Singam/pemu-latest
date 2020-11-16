@@ -1,0 +1,33 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout reposistory
+      uses: actions/checkout@master
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@master
+    - name: Get Packages
+      run: sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev
+    - name: Go To QEMU
+      run: cd qemu
+    - name: Build Qemu
+      run: cd qemu
+           mkdir -p bin/debug/native
+           cd bin/debug/native
+           ../../../configure --enable-debug
+           make
+    - name: Upload a QEMU Build Artifacts
+      uses: actions/upload-artifact@v2.2.1
+      with:
+        name: QEMU Native Build
+        path: bin/debug/native/*
