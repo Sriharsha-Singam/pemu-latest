@@ -20,10 +20,12 @@ jobs:
       run: sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev -y
     - name: Build Qemu
       run: mkdir -p qemu/build ;
-           cd qemu/build ;
+           cd qemu ;
+           git pull --recurse-submodules 
+           cd build ;
            pwd;
            ../configure --disable-git-update --enable-debug &&
-           scripts/git-submodule.sh update ../ui/keycodemapdb ../tests/fp/berkeley-testfloat-3 ../tests/fp/berkeley-softfloat-3 ../dtc &&
+           ../scripts/git-submodule.sh update ../ui/keycodemapdb ../tests/fp/berkeley-testfloat-3 ../tests/fp/berkeley-softfloat-3 ../dtc &&
            make
     - name: Upload a QEMU Build Artifacts
       uses: actions/upload-artifact@v2.2.1
