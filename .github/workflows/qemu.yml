@@ -17,14 +17,13 @@ jobs:
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@master
     - name: Get Packages
-      run: sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev
+      run: sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev -y
     - name: Go To QEMU
       run: cd qemu
     - name: Build Qemu
-      run: cd qemu
-           mkdir -p bin/debug/native
-           cd bin/debug/native
-           ../../../configure --enable-debug
+      run: mkdir -p bin/debug/native ;
+           cd bin/debug/native ;
+           ../../../configure --enable-debug &&
            make
     - name: Upload a QEMU Build Artifacts
       uses: actions/upload-artifact@v2.2.1
