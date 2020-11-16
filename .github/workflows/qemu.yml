@@ -23,6 +23,7 @@ jobs:
            cd qemu/build ;
            pwd;
            ../configure --disable-git-update --enable-debug &&
+           scripts/git-submodule.sh update ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 dtc &&
            make
     - name: Upload a QEMU Build Artifacts
       uses: actions/upload-artifact@v2.2.1
