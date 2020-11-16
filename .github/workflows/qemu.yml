@@ -28,4 +28,4 @@ jobs:
       uses: actions/upload-artifact@v2.2.1
       with:
         name: QEMU Native Build
-        path: bin/debug/native/*
+        path: qemu/build/*
