@@ -8,16 +8,16 @@
 */
 
 
-//#include <linux/module.h>
+#include <linux/module.h>
 
 #include <linux/version.h>
-#if LINUX_VERSION_CODE <= KERNEL_VERSION(4,11,0)
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,11,0)
 	#include <linux/sched.h>
 #else
 	#include <linux/sched/task.h>
 #endif
 
-//#include <linux/mm.h>
+#include <linux/mm.h>
 
 int init_module(void)
 {
