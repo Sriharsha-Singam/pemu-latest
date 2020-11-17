@@ -8,7 +8,9 @@ pushd task-info
 sudo make
 sudo echo 1 > /proc/sys/kernel/sysrq
 sudo echo x > /proc/sysrq-trigger
-sudo insmod ./task-info.ko ; sudo dmesg --time-format notime | grep "/* task struct root */"
+sudo insmod ./task-info.ko ; sudo dmesg --time-format notime ; sudo dmesg | grep "/* task struct root */"
+sudo dmesg --help
+sudo dmesg
 #sudo modprobe ./task-info.ko ; sudo dmesg
 #sudo dmesg >> temp.txt
 #cat temp.txt 
