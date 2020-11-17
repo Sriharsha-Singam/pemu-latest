@@ -16,17 +16,12 @@ jobs:
       uses: actions/checkout@master
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@master
-    - name: Get Packages
-      run: sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev -y
-    - name: Build Qemu
-      run: mkdir -p qemu/build ;
-           cd qemu ;
-           cd build ;
-           pwd;
-           sudo ../configure --enable-debug &&
-           sudo make
-    - name: Upload a QEMU Build Artifacts
-      uses: actions/upload-artifact@v2.2.1
-      with:
-        name: QEMU Native Build
-        path: qemu/build/*
+    - name: Build PEMU
+      run: sudo ./builder_linux.sh
+    - name: Record State
+      run: ls -laR
+    #- name: Upload a QEMU Build Artifacts
+    #  uses: actions/upload-artifact@v2.2.1
+    #  with:
+    #    name: QEMU Native Build
+    #    path: qemu/build/*
