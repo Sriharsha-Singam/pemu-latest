@@ -12,14 +12,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout reposistory
-      uses: actions/checkout@master
-    - name: Checkout submodules
-      uses: textbook/git-checkout-submodule-action@master
-    - name: Build PEMU
-      run: sudo chmod +x builder_linux.sh ; sudo ./builder_linux.sh
-    - name: Record State
-      run: ls -laR
+      - name: Checkout Sources.lit
+        run: cat /etc/apt/sources.list
+      - name: Change
+        run: sudo apt-get install perl; grep '^deb ' /etc/apt/sources.list | perl -pe 's/deb /deb-src /' >> /etc/apt/sources.list
+      - name: Checkout Sources.lit Again
+        run: cat /etc/apt/sources.list
+#     - name: Checkout reposistory
+#       uses: actions/checkout@master
+#     - name: Checkout submodules
+#       uses: textbook/git-checkout-submodule-action@master
+#     - name: Build PEMU
+#       run: sudo chmod +x builder_linux.sh ; sudo ./builder_linux.sh
+#     - name: Record State
+#       run: ls -laR
     #- name: Upload a QEMU Build Artifacts
     #  uses: actions/upload-artifact@v2.2.1
     #  with:
