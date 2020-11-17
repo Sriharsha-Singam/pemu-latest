@@ -18,12 +18,11 @@ sudo echo x > /proc/sysrq-trigger
 sudo insmod task-info.ko
 #sudo modprobe ./task-info.ko
 sudo dmesg --time-format notime | grep -iC 2 "offset of mm" > linux_task_info.patch
-cat linux_part1.patch > linux.c
-cat linux_task_info.patch >> linux.c
-cat linux_part2.patch >> linux.c
-cat linux.c
+cat ../linux_part1.patch > ../linux.c
+cat linux_task_info.patch >> ../linux.c
+cat ..linux_part2.patch >> ..linux.c
+cat ../linux.c
 popd
-
 
 # Build QEMU Part
 set -e
