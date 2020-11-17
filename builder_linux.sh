@@ -4,11 +4,10 @@ set -e
 set -x
 
 # Get Packages
-cat /etc/apt/sources.list
 sudo sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
-cat /etc/apt/sources.list
+sudo apt-get update
 sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev libsdl2-dev linux-headers-$(uname -r) -y
-sudo sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list && sudo apt-get build-dep qemu -y
+sudo apt-get build-dep qemu -y
 
 # Build Linux.c
 pushd task-info
