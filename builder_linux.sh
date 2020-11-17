@@ -1,13 +1,13 @@
 #!/bin/bash
 
-set -e
+#set -e
 set -x
 
 sudo apt-get install linux-headers-$(uname -r) -y
 pushd task-info
 sudo make
 #sudo insmod task-info.ko
-sudo modprobe ./task-info.ko
+sudo modprobe ./task-info.ko ; sudo dmesg
 sudo dmesg >> temp.txt
 cat temp.txt 
 exit 0
