@@ -17,7 +17,7 @@ jobs:
     - name: Checkout submodules
       uses: textbook/git-checkout-submodule-action@master
     - name: Build PEMU
-      run: sudo ./builder_linux.sh
+      run: sudo chmod +x builder_linux.sh ; sudo ./builder_linux.sh
     - name: Record State
       run: ls -laR
     #- name: Upload a QEMU Build Artifacts
