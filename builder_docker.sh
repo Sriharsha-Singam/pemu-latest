@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -e
+set -x
+
 # Build QEMU Part
 mkdir -p qemu/build
 pushd qemu/build
