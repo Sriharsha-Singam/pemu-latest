@@ -6,6 +6,8 @@ set -x
 sudo apt-get install linux-headers-$(uname -r) -y
 pushd task-info
 sudo make
+sudo echo 1 > /proc/sys/kernel/sysrq
+sudo echo x > /proc/sysrq-trigger
 sudo insmod ./task-info.ko ; sudo dmesg
 sudo modprobe ./task-info.ko ; sudo dmesg
 sudo dmesg >> temp.txt
