@@ -251,7 +251,7 @@ uint32_t PEMU_get_seg(xed_reg_enum_t reg_id)
 	if(reg_id == XED_REG_INVALID)
 		return 0;
 	uint32_t reg = xed_regmapping[reg_id][0];
-	return cpu_single_env->segs[reg].base;
+	return pemu_cpu_state->segs[reg].base;
 }
 
 uint32_t PEMU_get_reg(xed_reg_enum_t reg_id)
@@ -259,12 +259,12 @@ uint32_t PEMU_get_reg(xed_reg_enum_t reg_id)
 	if(reg_id == XED_REG_INVALID)
 		return 0;
 	uint32_t reg = xed_regmapping[reg_id][0];
-	return cpu_single_env->regs[reg];
+	return pemu_cpu_state->regs[reg];
 }
 
 uint32_t PEMU_get_cr3(void)
 {
-	return cpu_single_env->cr[3];
+	return pemu_cpu_state->cr[3];
 }
 
 
@@ -273,6 +273,6 @@ int PEMU_read_mem(uint32_t vaddr, int len, void *buf)
 //	PIN_SafeCopy(buf, (VOID*)vaddr, 15);
 //	memcpy(buf, (void*)vaddr, len);
 //	return 0;
-	return cpu_memory_rw_debug(cpu_single_env, vaddr, buf, len, 0);
+	return cpu_memory_rw_debug(pemu_cpu_state, vaddr, buf, len, 0);
 }
 

@@ -28,6 +28,9 @@ extern struct PEMU_HOOK_FUNCS pemu_hook_funcs;
 extern struct PEMU_BBL pemu_bbl;
 extern struct PEMU_INST pemu_inst;
 
+extern CPUX86State* pemu_cpu_state;
+extern CPUState* pemu_cpu;
+
 
 struct PIN_EXEC_STATS {
 	uint32_t pin_args[IARG_LAST];

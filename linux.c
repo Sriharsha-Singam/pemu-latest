@@ -155,7 +155,7 @@ extern target_ulong user_buf;
 void inject_freeGuestPde(void)
 {
 	int i,j,pde,pte;
-	unsigned int cr3 = cpu_single_env->cr[3];
+	unsigned int cr3 = pemu_cpu_state->cr[3];
 	int flags = 0x67;
 	unsigned long start;
 

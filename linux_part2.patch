@@ -12,7 +12,7 @@ static uint32_t next_task_struct(uint32_t addr)
 	uint32_t retval;
 	uint32_t next;
 
-    PEMU_read_mem(addr + pemu_guest_os.listoffset + sizeof(uint32_t), 
+    PEMU_read_mem(addr + pemu_guest_os.listoffset + sizeof(uint32_t),
 			sizeof(uint32_t), &next);
     retval = next - pemu_guest_os.listoffset;
 
@@ -23,9 +23,9 @@ static uint32_t get_pgd(uint32_t addr)
 {
 	uint32_t mmaddr, pgd;
 	PEMU_read_mem(addr + pemu_guest_os.mmoffset, sizeof(mmaddr), &mmaddr);
-	
+
 	if (0 == mmaddr)
-		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr), 
+		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr),
   				sizeof(mmaddr), &mmaddr);
 
 	if (0 != mmaddr)
@@ -43,14 +43,14 @@ static uint32_t get_first_mmap(uint32_t addr)
 	PEMU_read_mem(addr + pemu_guest_os.mmoffset, sizeof(mmaddr), &mmaddr);
 
 	if (0 == mmaddr)
-		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr), 
+		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr),
                    sizeof(mmaddr), &mmaddr);
 
   	if (0 != mmaddr)
 	 	PEMU_read_mem(mmaddr, sizeof(mmap), &mmap);
 	else
 		memset(&mmap, 0, sizeof(mmap));
-	
+
 	return mmap;
 }
 
@@ -127,7 +127,7 @@ extern target_ulong user_buf;
 void inject_freeGuestPde(void)
 {
 	int i,j,pde,pte;
-	unsigned int cr3 = cpu_single_env->cr[3];
+	unsigned int cr3 = pemu_cpu_state->cr[3];
 	int flags = 0x67;
 	unsigned long start;
 

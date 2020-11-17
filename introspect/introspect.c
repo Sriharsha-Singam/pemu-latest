@@ -103,14 +103,14 @@ void helper_introspect_hook(int pc)
 		}
 
 		num = get_sc_info(arg, &introspect_info.syscall_num);
-		introspect_save_all(cpu_single_env);
-		introspect_sysenter(cpu_single_env, arg, num);
+		introspect_save_all(pemu_cpu_state);
+		introspect_sysenter(pemu_cpu_state, arg, num);
 		introspect_info.return_pc = pc;
 #ifdef DEBUG
 		fprintf(stdout, "helper_introspect_hook before cpu_loop_exit syscall_num=0x%x\n",
 				introspect_info.syscall_num);
 #endif
-		cpu_loop_exit(cpu_single_env);
+		cpu_loop_exit(pemu_cpu_state);
 	}
 }
 

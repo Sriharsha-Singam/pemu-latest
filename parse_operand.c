@@ -108,7 +108,7 @@ int operand_is_mem(const xed_operand_enum_t op_name, uint32_t* mem_addr,
 //				int basereg  = 
 //					xed_regmapping[base_regid][0];
 				s_base_regid = base_regid;
-//				base = cpu_single_env->regs[basereg];
+//				base = pemu_cpu_state->regs[basereg];
 				base = PEMU_get_reg(base_regid);
 			}
 			// Get Index register and Scale
@@ -117,7 +117,7 @@ int operand_is_mem(const xed_operand_enum_t op_name, uint32_t* mem_addr,
 			if (mem_idx == 0 && index_regid != XED_REG_INVALID) {
 //				int indexreg = xed_regmapping[index_regid][0];
 				s_index_regid = index_regid;
-//				index = cpu_single_env->regs[indexreg];
+//				index = pemu_cpu_state->regs[indexreg];
 				index = PEMU_get_reg(index_regid);
 
 				if (xed_decoded_inst_get_scale

@@ -54,6 +54,7 @@ inline void inst_update(char *buf)
 int PEMU_init(void *env)
 {
 	//pemu_exec_stats.PEMU_hook_sys_call = -1;
+    pemu_cpu_state = env;
 	init_pin_regmapping(env);
 	init_inst();
 	init_bbl();
