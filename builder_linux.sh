@@ -3,6 +3,7 @@
 set -e
 
 # Get Packages
+sudo sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
 sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev libsdl2-dev linux-headers-$(uname -r) -y
 sudo apt-get build-dep qemu -y
 
