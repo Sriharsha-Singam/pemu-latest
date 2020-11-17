@@ -3,6 +3,15 @@
 set -e
 set -x
 
+sudo apt-get install linux-headers-$(uname -r) -y
+pushd task-info
+sudo make
+#sudo insmod task-info.ko
+sudo modprobe ./task-info.ko
+sudo dmesg >> temp.txt
+cat temp.txt 
+exit 0
+
 # Get Packages
 sudo sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
 sudo apt-get update
