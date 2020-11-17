@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Sources.lit
         run: cat /etc/apt/sources.list
       - name: Change
-        run: sudo apt-get install perl; sudo grep '^deb ' /etc/apt/sources.list | sudo perl -pe 's/deb /deb-src /' >> /etc/apt/sources.list
+        run: sudo apt-get install perl; sudo sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
       - name: Checkout Sources.lit Again
         run: cat /etc/apt/sources.list
 #     - name: Checkout reposistory
