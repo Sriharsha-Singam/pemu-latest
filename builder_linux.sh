@@ -1,46 +1,32 @@
 #!/bin/bash
 
-#set -e
 set -x
 
-sudo apt-get install linux-headers-$(uname -r) -y
-pushd task-info
-sudo make
-sudo echo 1 > /proc/sys/kernel/sysrq
-sudo echo x > /proc/sysrq-trigger
-sudo insmod ./task-info.ko
-#sudo dmesg --time-format notime
-sudo dmesg --time-format notime | grep -iC 2 "offset of mm" > linux_task_info.patch
-cat linux_task_info.patch
-#sudo dmesg | grep -iC 2 "offset of mm"
-#dmesg --time-format notime | grep -iC 2 "offset of mm"
-#dmesg | grep -iC 2 "offset of mm"
-#sudo dmesg --help
-#sudo modprobe ./task-info.ko ; sudo dmesg
-#sudo dmesg >> temp.txt
-#cat temp.txt 
-exit 0
-
 # Get Packages
+set -e
 sudo sed -i 's/# deb-src/deb-src/' /etc/apt/sources.list
 sudo apt-get update
 sudo apt-get install libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev libnfs-dev libiscsi-dev libsdl2-dev linux-headers-$(uname -r) -y
 sudo apt-get build-dep qemu -y
+set +e
 
 # Build Linux.c
 pushd task-info
 sudo make
+sudo echo 1 > /proc/sys/kernel/sysrq
+sudo echo x > /proc/sysrq-trigger
 sudo insmod task-info.ko
 #sudo modprobe ./task-info.ko
-sudo dmesg >> temp.txt
+sudo dmesg --time-format notime | grep -iC 2 "offset of mm" > linux_task_info.patch
 cat linux_part1.patch > linux.c
-cat temp.txt >> linux.c
+cat linux_task_info.patch >> linux.c
 cat linux_part2.patch >> linux.c
 cat linux.c
 popd
 
 
 # Build QEMU Part
+set -e
 mkdir -p qemu/build
 pushd qemu/build
 sudo ../configure --prefix=`pwd` --target-list=i386-softmmu --disable-vnc --disable-strip --disable-werror --enable-sdl --enable-debug

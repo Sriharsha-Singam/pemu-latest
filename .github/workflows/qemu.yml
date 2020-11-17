@@ -14,14 +14,24 @@ jobs:
     steps:
     - name: Checkout reposistory
       uses: actions/checkout@master
-    #- name: Checkout submodules
-    #  uses: textbook/git-checkout-submodule-action@master
+    - name: Checkout submodules
+      uses: textbook/git-checkout-submodule-action@master
     - name: Build PEMU
       run: sudo chmod +x builder_linux.sh ; sudo ./builder_linux.sh
     - name: Record State
       run: ls -laR
-    #- name: Upload a QEMU Build Artifacts
-    #  uses: actions/upload-artifact@v2.2.1
-    #  with:
-    #    name: QEMU Native Build
-    #    path: qemu/build/*
+    - name: Upload a PEMU Pin Build Artifacts
+      uses: actions/upload-artifact@v2.2.1
+      with:
+        name: PEMU Pin Build
+        path: plugins/build/*
+    - name: Upload a QEMU Build Artifacts
+      uses: actions/upload-artifact@v2.2.1
+      with:
+        name: QEMU Build
+        path: qemu/build/*
+    - name: Upload a LINUX.c Build Artifacts
+      uses: actions/upload-artifact@v2.2.1
+      with:
+        name: Custom PEMU Linux
+        path: linux.c
