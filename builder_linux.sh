@@ -34,8 +34,8 @@ sudo make install
 popd
 
 # Build ELF-PARSER
-mkdir -p disas/elf-parser/build
-pushd disas/elf-parser/build
+mkdir -p pemu-disas/elf-parser/build
+pushd pemu-disas/elf-parser/build
 ../configure
 make
 popd
