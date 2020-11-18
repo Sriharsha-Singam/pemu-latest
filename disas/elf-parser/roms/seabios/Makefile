@@ -1,1 +1,0 @@
-/home/junyuan/pemu-master/roms/seabios/Makefile

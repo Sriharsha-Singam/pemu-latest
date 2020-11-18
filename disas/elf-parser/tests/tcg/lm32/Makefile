@@ -1,1 +1,0 @@
-/home/junyuan/pemu-master/tests/tcg/lm32/Makefile

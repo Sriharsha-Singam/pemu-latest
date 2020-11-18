@@ -1,1 +1,0 @@
-/home/junyuan/pemu-master/pc-bios/spapr-rtas/Makefile
