@@ -36,12 +36,12 @@ popd
 # Build ELF-PARSER
 mkdir -p pemu-disas/elf-parser/build
 pushd pemu-disas/elf-parser/build
-../configure
-make
+sudo ../configure
+sudo make
 popd
 
 # Build PEMU
 pushd plugins
 mkdir build
-make
+sudo make
 popd
