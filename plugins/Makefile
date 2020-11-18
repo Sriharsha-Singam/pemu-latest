@@ -1,7 +1,7 @@
 include ../qemu/build/config-host.mak
 
 DEFINES = -I. -I../qemu -I$(SRC_PATH) -I$(SRC_PATH)/i386-softmmu -I$(SRC_PATH)/target/i386 -I$(SRC_PATH)/fpu -I../pin -D_GNU_SOURCE
-XED_PATH = ../xed2/xed2-ia32
+XED_PATH = ../xed2/xed2-intel64
 OBJ_PATH = ../qemu/build/i386-softmmu
 
 CFLAGS = -Wall -g -fPIC -I$(XED_PATH)/include -w -MMD
