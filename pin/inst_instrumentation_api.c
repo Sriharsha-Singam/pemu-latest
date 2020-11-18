@@ -13,11 +13,9 @@
 #include "qemu/host-utils.h"
 #include "../qemu/target/i386/cpu.h"
 #include "disas/disas.h"
-#include "tcg-op.h"
+#include "tcg/tcg-op.h"
 
-#include "helper.h"
-#define GEN_HELPER 1
-#include "helper.h"
+#include "exec/helper-gen.h"
 
 #include "instrumentation_level.h"
 

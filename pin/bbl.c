@@ -19,13 +19,11 @@
 #include <signal.h>
 
 #include "qemu/host-utils.h"
-#include "../qemu/target/i386/cpu.h"
+#include "cpu.h"
 #include "disas/disas.h"
 #include "tcg/tcg-op.h"
 
-#include "helper.h"
-#define GEN_HELPER 1
-#include "helper.h"
+#include "exec/helper-gen.h"
 
 static long func_args[10];
 VOID BBL_MoveAllAttributes (BBL fromBbl, BBL toBbl)

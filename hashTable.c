@@ -8,7 +8,8 @@
 */
 
 #include "hashTable.h"
-#include <stdlib.h>
+#include <stdio.h>
+
 /*---------------------shadow memory----------------------*/
 #define PAGE_BITS 16
 #define PAGE_SIZE (1<<PAGE_BITS)

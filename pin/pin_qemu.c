@@ -1,12 +1,10 @@
 #include "pin_qemu.h"
 
-//#include <stdarg.h>
-//#include <stdlib.h>
-//#include <stdio.h>
-//#include <string.h>
-//#include "qemu-pemu.h"
+#include <stdbool.h>
 #include <inttypes.h>
-#include "../qemu/target/i386/cpu.h"
+
+#include "qemu/osdep.h"
+#include "cpu.h"
 #include "reg32.h"
 #include "context_manipulation_api.h"
 

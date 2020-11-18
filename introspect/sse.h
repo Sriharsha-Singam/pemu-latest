@@ -7,7 +7,8 @@
 #
 */
 
-#include "qemu-common.h"
+#include "qemu/osdep.h"
+#include "exec/cpu-defs.h"
 #include <pthread.h>
 #include <semaphore.h>
 

@@ -17,8 +17,10 @@
 
 #include "qemu-pemu.h"
 #include "pemu.h"
+extern CPUX86State* pemu_cpu_state;
+
 #include "linux.h"
 
 //OS specific information:
-struct PEMU_guest_os pemu_guest_os = 
+struct PEMU_guest_os pemu_guest_os =
 {

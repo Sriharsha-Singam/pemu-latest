@@ -10,8 +10,9 @@
 #ifndef __CODECACHE_H
 #define __CODECACHE_H
 
-#include "qemu-common.h"
 #include <stdint.h>
+#include "qemu/osdep.h"
+#include "exec/cpu-defs.h"
 
 #define TAINTED 1
 #define UNTAINTED 0

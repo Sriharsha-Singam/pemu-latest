@@ -8,17 +8,14 @@
 */
 
 #include <stdio.h>
-#include "qemu-common.h"
+#include "qemu/osdep.h"
+#include "cpu.h"
+#include "tcg/tcg-op.h"
 
-#include "qemu/host-utils.h"
-#include "../qemu/target/i386/cpu.h"
-#include "tcg-op.h"
-
-#include "helper.h"
-#define GEN_HELPER 1
-#include "helper.h"
+#include "exec/helper-gen.h"
 
 #include "../pemu.h"
+extern CPUX86State* pemu_cpu_state;
 
 #define DEBUG
 

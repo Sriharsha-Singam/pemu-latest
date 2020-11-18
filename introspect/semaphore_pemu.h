@@ -1,4 +1,4 @@
-#include "qemu-common.h"
+#include "qemu/osdep.h"
 struct sys_para{
     int pointer;
     target_ulong value;

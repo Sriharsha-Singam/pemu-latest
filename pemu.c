@@ -13,14 +13,14 @@
 #include "pemu_helper.h"
 #include <stdio.h>
 #include "pemu-disas/disas.h"
-//#include "pemu-disas/hashTable.h"
-
 
 struct PEMU_EXEC_STATS pemu_exec_stats;
 struct PEMU_HOOK_FUNCS pemu_hook_funcs;
 struct PEMU_BBL pemu_bbl;
 struct PEMU_INST pemu_inst;
 
+CPUState* pemu_cpu;
+CPUX86State* pemu_cpu_state;
 
 void init_inst(void)
 {
@@ -54,7 +54,8 @@ inline void inst_update(char *buf)
 int PEMU_init(void *env)
 {
 	//pemu_exec_stats.PEMU_hook_sys_call = -1;
-    pemu_cpu_state = env;
+    pemu_cpu = env;
+    pemu_cpu_state = pemu_cpu->env_ptr;
 	init_pin_regmapping(env);
 	init_inst();
 	init_bbl();

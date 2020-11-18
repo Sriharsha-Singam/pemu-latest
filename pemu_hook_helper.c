@@ -7,93 +7,13 @@
 #
 */
 
-#ifndef PEMU_HOOK_HELPER_C
-#define PEMU_HOOK_HELPER_C
-
-
 #include <stdio.h>
-#include "pemu.h"
-#include "parse_operand.h"
+#include "pin/instrumentation_level.h"
+#include "qemu/osdep.h"
+#include "cpu.h"
+#include "tcg/tcg-op.h"
 
-//#include "qemu/osdep.h"
-//#include "qemu/host-utils.h"
-//#include "cpu.h"
-//#include "disas/disas.h"
-//#include "exec/exec-all.h"
-
-
-//#include "qemu/host-utils.h"
-//#include "cpu.h"
-//#include "tcg/tcg-op.h"
-
-#include "helper.h"
-#define GEN_HELPER 1
-#include "helper.h"
-
-
-
-
-#endif
-////#include "qemu/osdep.h"
-////#include "cpu.h"
-////#include "disas/disas.h"
-//////#include "exec/exec-all.h"
-//////#include "tcg/tcg.h"
-////#include "tcg/tcg-op.h"
-////
-////
-//////#include "qemu/osdep.h"
-//////#include "qemu/host-utils.h"
-//////#include "qemu/error-report.h"
-//////#include "qemu-common.h"
-//////#include "cpu.h"
-//////#include "disas/disas.h"
-//////#include "exec/exec-all.h"
-////
-////
-////#include "pemu.h"
-////#include "parse_operand.h"
-////
-////#include "helper.h"
-////#define GEN_HELPER 1
-////#include "helper.h"
-////
-////
-////#include <stdio.h>
-//
-////#include <stdio.h>
-////#include "pemu.h"
-////#include "parse_operand.h"
-////
-//
-//#include "pin/instrumentation_level.h"
-//
-//#include <stdbool.h>
-//#include <stdint.h>
-//#include <string.h>
-//#include <stdio.h>
-////#include "qemu/typedefs.h"
-//#include "qemu/osdep.h"
-//#include "qemu-common.h"
-//////#include "qemu/osdep.h"
-////#include "qemu/host-utils.h"
-//#include "cpu.h"
-////#include "disas/disas.h"
-////#include "exec/exec-all.h"
-////
-////#include <stdbool.h>
-////#include <stdint.h>
-////#include <string.h>
-//#include "tcg/tcg-op.h"
-//
-//
-//
-////#include "pemu.h"
-////#include "parse_operand.h"
-//
-////#include "helper.h"
-////#define GEN_HELPER 1
-////#include "helper.h"
+#include "exec/helper-gen.h"
 
 
 long para_array[20];

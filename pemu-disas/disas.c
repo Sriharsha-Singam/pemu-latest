@@ -9,6 +9,9 @@
 
 #include "disas.h"
 #include "../hashTable.h"
+#include "cpu.h"
+
+extern CPUState* pemu_cpu;
 
 static xed_state_t dstate;
 static xed_decoded_inst_t xedd_g;
@@ -46,7 +49,7 @@ static xed_error_enum_t disas_one_inst(target_ulong pc)
 {
 	char buf[15];
 	if(PEMU_read_mem(pc, 15, buf)!=0)
-		tlb_fill(pemu_cpu_state, pc+14, 0, 0, 0);
+		x86_cpu_tlb_fill(pemu_cpu, pc+14, 0, 0, 0, false, 0);
 	xed_decoded_inst_zero_set_mode(&xedd_g, &dstate);
 	xed_error_enum_t xed_error = xed_decode(&xedd_g,
 			XED_STATIC_CAST(const xed_uint8_t *,  buf), 15);
