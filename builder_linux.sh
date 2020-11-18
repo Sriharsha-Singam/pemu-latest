@@ -34,11 +34,11 @@ sudo make install
 popd
 
 # Build ELF-PARSER
-mkdir -p pemu-disas/elf-parser/build
-pushd pemu-disas/elf-parser/build
-sudo ../configure
-sudo make
-popd
+#mkdir -p pemu-disas/elf-parser/build
+#pushd pemu-disas/elf-parser/build
+#sudo ../configure
+#sudo make
+#popd
 
 # Build PEMU
 pushd plugins
