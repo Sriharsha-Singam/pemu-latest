@@ -19,9 +19,9 @@
 #include <signal.h>
 
 #include "qemu/host-utils.h"
-#include "cpu.h"
+#include "../qemu/target/i386/cpu.h"
 #include "disas/disas.h"
-#include "tcg-op.h"
+#include "tcg/tcg-op.h"
 
 #include "helper.h"
 #define GEN_HELPER 1

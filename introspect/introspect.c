@@ -11,7 +11,7 @@
 #include "qemu-common.h"
 
 #include "qemu/host-utils.h"
-#include "cpu.h"
+#include "../qemu/target/i386/cpu.h"
 #include "tcg-op.h"
 
 #include "helper.h"

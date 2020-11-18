@@ -13,12 +13,19 @@
 #include <xed-interface.h>
 #include "pin/pin.h"
 #include "qemu-pemu.h"
+#include "qemu/osdep.h"
+#include "qemu/host-utils.h"
+#include "qemu/error-report.h"
 #include "qemu-common.h"
 #include "cpu.h"
-#include "disas/disas.h"
+//#include "pemu-disas/disas.h"
 #include "pin/pin_objs.h"
-#include "pin/instrumentation_arguments.h"
+//#include "pin/instrumentation_arguments.h"
 //#include "hashTable.h"
+#include "disas/disas.h"
+#include "exec/exec-all.h"
+#include "tcg/tcg.h"
+#include "tcg/tcg-op.h"
 
 
 struct PEMU_EXEC_STATS;

@@ -9,7 +9,7 @@
 
 #include "pin.h"
 #include "../pemu.h"
-#include "../DISAS/disas.h"
+#include "../pemu-disas/disas.h"
 #include "generic_inspection_api.h"
 #include "../parse_operand.h"
 

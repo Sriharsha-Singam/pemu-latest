@@ -11,7 +11,7 @@
 
 #include "../hashTable.h"
 #include "qemu/host-utils.h"
-#include "cpu.h"
+#include "../qemu/target/i386/cpu.h"
 #include "disas/disas.h"
 #include "tcg-op.h"
 

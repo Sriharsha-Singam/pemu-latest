@@ -8,7 +8,7 @@
 */
 
 #include "qemu-pemu.h"
-#include "cpu.h"
+#include "./qemu/target/i386/cpu.h"
 
 static int xed_regmapping[][3] = {
 /* XED_REG_INVALID, */ {-1,-1,-1},

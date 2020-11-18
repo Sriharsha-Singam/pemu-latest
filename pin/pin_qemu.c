@@ -6,7 +6,7 @@
 //#include <string.h>
 //#include "qemu-pemu.h"
 #include <inttypes.h>
-#include "cpu.h"
+#include "../qemu/target/i386/cpu.h"
 #include "reg32.h"
 #include "context_manipulation_api.h"
 

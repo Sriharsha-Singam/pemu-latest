@@ -12,8 +12,8 @@
 #include "pin/pin_qemu.h"
 #include "pemu_helper.h"
 #include <stdio.h>
-#include "disas/disas.h"
-//#include "disas/hashTable.h"
+#include "pemu-disas/disas.h"
+//#include "pemu-disas/hashTable.h"
 
 
 struct PEMU_EXEC_STATS pemu_exec_stats;
