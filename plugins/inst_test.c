@@ -18,7 +18,7 @@ VOID Instruction(INS ins, VOID *v)
 {
 	inst_print(ins);
 	if(INS_IsDirectBranchOrCall(ins)) {
-	printf("INS_Category: %s\n	\
+	fprintf(stdout, "INS_Category: %s\n	\
 			INS_Extension: %s\n	\
 			INS_Size: %d\n	\
 			INS_IsMemoryRead: %d\n	\

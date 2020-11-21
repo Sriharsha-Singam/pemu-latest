@@ -10,6 +10,7 @@
 #include "qemu-pemu.h"
 
 #include "pemu.h"
+extern CPUState* pemu_cpu;
 extern CPUX86State* pemu_cpu_state;
 
 static int xed_regmapping[][3] = {
@@ -275,6 +276,6 @@ int PEMU_read_mem(uint32_t vaddr, int len, void *buf)
 //	PIN_SafeCopy(buf, (VOID*)vaddr, 15);
 //	memcpy(buf, (void*)vaddr, len);
 //	return 0;
-	return cpu_memory_rw_debug(pemu_cpu_state, vaddr, buf, len, 0);
+	return cpu_memory_rw_debug(pemu_cpu, vaddr, buf, len, 0);
 }
 

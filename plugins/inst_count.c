@@ -21,7 +21,7 @@ VOID Trace(TRACE trace, VOID *v)
 
 VOID Fini(INT32 code, VOID *v)
 {
-	fprintf(stderr, "Inst count :%lld \n", icount);
+	fprintf(stdout, "Inst count :%lld \n", icount);
 }
 
 void main(int argc, char * argv[])

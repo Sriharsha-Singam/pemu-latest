@@ -15,6 +15,7 @@
 #include "exec/helper-gen.h"
 
 #include "../pemu.h"
+extern CPUState* pemu_cpu;
 extern CPUX86State* pemu_cpu_state;
 
 #define DEBUG
@@ -107,7 +108,7 @@ void helper_introspect_hook(int pc)
 		fprintf(stdout, "helper_introspect_hook before cpu_loop_exit syscall_num=0x%x\n",
 				introspect_info.syscall_num);
 #endif
-		cpu_loop_exit(pemu_cpu_state);
+		cpu_loop_exit(pemu_cpu);
 	}
 }
 
