@@ -24,11 +24,11 @@ extern CPUX86State* pemu_cpu_state;
 //OS specific information:
 struct PEMU_guest_os pemu_guest_os = 
 {
-	0xC1731F60, /* task struct root */
-	432, /* offset of task_struct list */
-	460, /* offset of mm */
-	40, /* offset of pgd in mm */
-	732, /* offset of comm */
+	0xDD6AA3C0, /* task struct root */
+720, /* offset of task_struct list */
+760, /* offset of mm */
+36, /* offset of pgd in mm */
+1160 /* offset of comm */
 };
 
 ///////////////////////////
