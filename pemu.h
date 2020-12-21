@@ -13,6 +13,7 @@
 #include <xed-interface.h>
 #include "pin/pin.h"
 #include "qemu/osdep.h"
+#include "monitor/monitor.h"
 #include "cpu.h"
 #include "pin/pin_objs.h"
 #include "pin/instrumentation_arguments.h"
@@ -27,7 +28,7 @@ extern struct PEMU_INST pemu_inst;
 
 extern CPUX86State* pemu_cpu_state;
 extern CPUState* pemu_cpu;
-
+extern Monitor* pemu_debug_monitor;
 
 struct PIN_EXEC_STATS {
 	uint32_t pin_args[IARG_LAST];
@@ -93,6 +94,6 @@ struct PEMU_HOOK_FUNCS {
 //xed_error_enum_t disas_one_inst_ex(target_ulong pc, PEMU_INST *inst);
 //int disas_basic_block(target_ulong pc_start, PEMU_BBL *bbl);
 
-int PEMU_init(void*);
+int PEMU_init(void* env, Monitor* monitor);
 int PEMU_exit(void);
 #endif

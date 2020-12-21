@@ -9,6 +9,7 @@
 
 
 #include "pemu.h"
+#include "linux.h"
 #include "pin/pin_qemu.h"
 #include "pemu_helper.h"
 #include <stdio.h>
@@ -21,6 +22,7 @@ struct PEMU_INST pemu_inst = {0};
 
 CPUState* pemu_cpu = NULL;
 CPUX86State* pemu_cpu_state = NULL;
+Monitor* pemu_debug_monitor = NULL;
 
 void init_inst(void)
 {
@@ -51,13 +53,17 @@ inline void inst_update(char *buf)
 	}
 }
 
-int PEMU_init(void *env)
+int PEMU_init(void *env, Monitor* monitor)
 {
 	//pemu_exec_stats.PEMU_hook_sys_call = -1;
 	
+    setup_guest_os_values();
     pemu_cpu = env;
     pemu_cpu_state = pemu_cpu->env_ptr;
-    fprintf(stdout, "Running PEMU Init() -- CPUState=%p and CPUX86State=%p\n", pemu_cpu, pemu_cpu_state);
+
+    pemu_debug_monitor = monitor;
+
+    monitor_printf(monitor, "Running PEMU Init() -- CPUState=%p and CPUX86State=%p\n", pemu_cpu, pemu_cpu_state);
 	init_pin_regmapping(env);
 	init_inst();
 	init_bbl();
@@ -69,6 +75,7 @@ int PEMU_init(void *env)
 
 int PEMU_exit(void)
 {
+	fprintf(stdout, "PEMU_exit()\r\n");
 	pemu_exec_stats.PEMU_start = 0;
 	return 1;
 }

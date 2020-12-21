@@ -20,6 +20,7 @@ struct PEMU_guest_os {
 
 extern struct PEMU_guest_os pemu_guest_os;
 
+void setup_guest_os_values();
 int PEMU_find_process(void *opaque);
 
 #endif

@@ -2,7 +2,7 @@
 #include "pin.h"
 
 VOID SysBefore(ADDRINT ip, ADDRINT num) {
-	fprintf(stdout,"0x%lx: %ld\n",
+	fprintf(stdout,"SysBefore() ==> 0x%lx: %ld\n",
 		(unsigned long)ip, (long)num);
 }
 
@@ -13,7 +13,7 @@ VOID SyscallEntry(THREADID threadIndex,
 }
 
 VOID Fini(INT32 code, VOID*v) {
-	printf("program exit\n");
+	fprintf(stdout, "STRACE.SO Plugin FINISH \r\n");
 }
 
 INT32 Usage(VOID){
@@ -21,6 +21,7 @@ INT32 Usage(VOID){
 }
 
 int main(int argc, char*argv[]) {
+	fprintf(stdout, "STRACE.SO Plugin Main() -- SyscallEntry(): %p\r\n", SyscallEntry);
 	PIN_AddSyscallEntryFunction(SyscallEntry, 0);
 	PIN_AddFiniFunction(Fini, 0);
 	PIN_StartProgram();

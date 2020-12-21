@@ -22,14 +22,35 @@ extern CPUX86State* pemu_cpu_state;
 #include "linux.h"
 
 //OS specific information:
-struct PEMU_guest_os pemu_guest_os = 
-{
-	0xDD6AA3C0, /* task struct root */
-720, /* offset of task_struct list */
-760, /* offset of mm */
-36, /* offset of pgd in mm */
-1160 /* offset of comm */
-};
+struct PEMU_guest_os pemu_guest_os;
+
+void setup_guest_os_values() {
+   system("pwd");
+   FILE* file = fopen ("../../guest_os_values.txt", "r");
+   int i = 0;
+   size_t read = 0;
+   char * line = NULL;
+   size_t len = 0;
+   int task_struct_root = 0;
+   int counter = 0;
+   int values[4] = {0};
+   while ((read = getline(&line, &len, file)) != -1) {
+        if (task_struct_root == 0) {  
+            sscanf(line, "%x", &task_struct_root);
+            printf("0x%x\n", task_struct_root);
+        } else {
+            values[counter] = atoi(line);
+            printf("%i\n", values[counter]);
+            counter++;
+        }
+   }
+   pemu_guest_os.taskaddr = task_struct_root;
+   pemu_guest_os.listoffset = values[0];
+   pemu_guest_os.mmoffset = values[1];
+   pemu_guest_os.pgdoffset = values[2];
+   pemu_guest_os.commoffset = values[3];
+   fclose (file);   
+}
 
 ///////////////////////////
 static void get_name(uint32_t addr, int size, char *buf)

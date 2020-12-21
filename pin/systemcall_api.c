@@ -12,6 +12,7 @@
 
 VOID PIN_AddSyscallEntryFunction (SYSCALL_ENTRY_CALLBACK fun, VOID *val)
 {
+	fprintf(stdout, "PIN_AddSyscallEntryFunction(): %p\r\n", fun);
 	pemu_hook_funcs.enter_syscall_hook = fun;
 }
 
