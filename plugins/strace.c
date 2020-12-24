@@ -2,8 +2,13 @@
 #include "pin.h"
 
 VOID SysBefore(ADDRINT ip, ADDRINT num) {
-	fprintf(stdout,"SysBefore() ==> 0x%lx: %ld\n",
+	char syscall_finder[256];
+	snprintf(syscall_finder, sizeof syscall_finder, "ausyscall i386 %d", num);
+	fprintf(stdout,"SysBefore() ==> 0x%lx: %ld ==> ",
 		(unsigned long)ip, (long)num);
+	fflush(stdout);
+	system(syscall_finder);
+	fprintf(stdout, "\n");
 }
 
 VOID SyscallEntry(THREADID threadIndex,

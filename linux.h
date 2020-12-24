@@ -10,12 +10,16 @@
 #ifndef __LINUX_H__
 #define __LINUX_H__
 
+//#include "cpu.h"
+#include "qemu-pemu.h"
+
 struct PEMU_guest_os {
-	unsigned int taskaddr;
+	target_ulong taskaddr;
 	int listoffset;
 	int mmoffset;
 	int pgdoffset;
 	int commoffset;
+	int pidoffset;
 };
 
 extern struct PEMU_guest_os pemu_guest_os;

@@ -20,9 +20,9 @@ struct PEMU_HOOK_FUNCS pemu_hook_funcs = {0};
 struct PEMU_BBL pemu_bbl = {0};
 struct PEMU_INST pemu_inst = {0};
 
-CPUState* pemu_cpu = NULL;
-CPUX86State* pemu_cpu_state = NULL;
-Monitor* pemu_debug_monitor = NULL;
+CPUState* pemu_cpu;
+CPUX86State* pemu_cpu_state;
+Monitor* pemu_debug_monitor;
 
 void init_inst(void)
 {
@@ -53,13 +53,24 @@ inline void inst_update(char *buf)
 	}
 }
 
-int PEMU_init(void *env, Monitor* monitor)
+void PEMU_update_cpux86(CPUX86State* env) {
+	if (!pemu_exec_stats.PEMU_start) return;
+	fprintf(stdout, "UPDATING pemu CPUX86State cr[3] = 0x%lx\r\n", env->cr[3]);    
+	pemu_cpu_state = env;
+}
+
+void PEMU_update_cpu(CPUState* env) {
+    pemu_cpu = env;
+    pemu_cpu_state = pemu_cpu->env_ptr;
+}
+
+int PEMU_init(CPUState* env, Monitor* monitor)
 {
 	//pemu_exec_stats.PEMU_hook_sys_call = -1;
 	
     setup_guest_os_values();
-    pemu_cpu = env;
-    pemu_cpu_state = pemu_cpu->env_ptr;
+    
+    PEMU_update_cpu(env);
 
     pemu_debug_monitor = monitor;
 
@@ -77,5 +88,6 @@ int PEMU_exit(void)
 {
 	fprintf(stdout, "PEMU_exit()\r\n");
 	pemu_exec_stats.PEMU_start = 0;
+	pemu_exec_stats.PEMU_main_thread_started = 0;
 	return 1;
 }

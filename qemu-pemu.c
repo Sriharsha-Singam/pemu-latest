@@ -10,8 +10,8 @@
 #include "qemu-pemu.h"
 
 #include "pemu.h"
-extern CPUState* pemu_cpu;
-extern CPUX86State* pemu_cpu_state;
+//extern CPUState* pemu_cpu;
+//extern CPUX86State* pemu_cpu_state;
 
 static int xed_regmapping[][3] = {
 /* XED_REG_INVALID, */ {-1,-1,-1},

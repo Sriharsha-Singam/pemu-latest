@@ -1,0 +1,5 @@
+KERNEL_MODULE_VERSION = 1.0
+KERNEL_MODULE_SITE = $(BR2_EXTERNAL_KERNEL_MODULE_PATH)
+KERNEL_MODULE_SITE_METHOD = local
+$(eval $(kernel-module))
+$(eval $(generic-package))

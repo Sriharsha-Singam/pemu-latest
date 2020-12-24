@@ -11,6 +11,7 @@
 #define PEMU_H
 
 #include <xed-interface.h>
+#include "qemu-pemu.h"
 #include "pin/pin.h"
 #include "qemu/osdep.h"
 #include "monitor/monitor.h"
@@ -53,6 +54,9 @@ struct PEMU_EXEC_STATS {
 	target_ulong PEMU_img_end;
 	target_ulong PEMU_libc_start;
 	target_ulong PEMU_libc_end;
+
+	int cr3_changed;
+	int PEMU_main_thread_started;
 	//uint32_t PEMU_hook_sys_call;
 	
 	int PEMU_int_level;
@@ -93,7 +97,9 @@ struct PEMU_HOOK_FUNCS {
 
 //xed_error_enum_t disas_one_inst_ex(target_ulong pc, PEMU_INST *inst);
 //int disas_basic_block(target_ulong pc_start, PEMU_BBL *bbl);
+void PEMU_update_cpux86(CPUX86State* env);
+void PEMU_update_cpu(CPUState *env);
 
-int PEMU_init(void* env, Monitor* monitor);
+int PEMU_init(CPUState* env, Monitor* monitor);
 int PEMU_exit(void);
 #endif
