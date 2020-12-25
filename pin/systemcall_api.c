@@ -12,7 +12,6 @@
 
 VOID PIN_AddSyscallEntryFunction (SYSCALL_ENTRY_CALLBACK fun, VOID *val)
 {
-	fprintf(stdout, "PIN_AddSyscallEntryFunction(): %p\r\n", fun);
 	pemu_hook_funcs.enter_syscall_hook = fun;
 }
 
@@ -23,6 +22,7 @@ VOID PIN_AddSyscallExitFunction (SYSCALL_EXIT_CALLBACK fun, VOID *val)
 
 VOID PIN_SetSyscallArgument (CONTEXT *ctxt, SYSCALL_STANDARD std, UINT32 argNum, ADDRINT val)
 {
+// TODO: Change all this to STYLE that works: res = pemu_cpu_state->regs[R_EAX]; BUT THIS IS VERY DANGEROUS... RETHINK.
 	switch(std){
 		case SYSCALL_STANDARD_INVALID:
 			break;
@@ -67,6 +67,7 @@ VOID PIN_SetSyscallArgument (CONTEXT *ctxt, SYSCALL_STANDARD std, UINT32 argNum,
 
 ADDRINT PIN_GetSyscallArgument (const CONTEXT *ctxt, SYSCALL_STANDARD std, UINT32 argNum)
 {
+// TODO: Change all this to STYLE that works: res = pemu_cpu_state->regs[R_EAX];
 	ADDRINT res = 0;
 	switch(std){
 		case SYSCALL_STANDARD_INVALID:
@@ -117,7 +118,7 @@ VOID PIN_SetSyscallNumber (CONTEXT *ctxt, SYSCALL_STANDARD std, ADDRINT val)
 			break;
 		case SYSCALL_STANDARD_IA32_LINUX:
 		case SYSCALL_STANDARD_IA32E_LINUX:
-			*ctxt[REG_EAX_] = val;
+			//*ctxt[REG_EAX_] = val; TODO:: THIS DOES NOT WORK. It really should not be used in general. It is dangerous.
 			break;
 		case SYSCALL_STANDARD_IA32_MAC:
 		case SYSCALL_STANDARD_IA32E_MAC:
@@ -141,7 +142,7 @@ ADDRINT PIN_GetSyscallNumber (const CONTEXT *ctxt, SYSCALL_STANDARD std)
 			break;
 		case SYSCALL_STANDARD_IA32_LINUX:
 		case SYSCALL_STANDARD_IA32E_LINUX:
-			res = *ctxt[REG_EAX_];
+			res = pemu_cpu_state->regs[R_EAX];
 			break;
 		case SYSCALL_STANDARD_IA32_MAC:
 		case SYSCALL_STANDARD_IA32E_MAC:
@@ -159,7 +160,7 @@ ADDRINT PIN_GetSyscallNumber (const CONTEXT *ctxt, SYSCALL_STANDARD std)
 
 ADDRINT PIN_GetSyscallReturn (const CONTEXT *ctxt, SYSCALL_STANDARD std)
 {
-	return *ctxt[REG_EAX_];
+	return pemu_cpu_state->regs[R_EAX];
 }
 
 ADDRINT PIN_GetSyscallErrno (const CONTEXT *ctxt, SYSCALL_STANDARD std)

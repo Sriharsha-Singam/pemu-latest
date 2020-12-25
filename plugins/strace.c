@@ -8,7 +8,6 @@ VOID SysBefore(ADDRINT ip, ADDRINT num) {
 		(unsigned long)ip, (long)num);
 	fflush(stdout);
 	system(syscall_finder);
-	fprintf(stdout, "\n");
 }
 
 VOID SyscallEntry(THREADID threadIndex,

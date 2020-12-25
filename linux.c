@@ -21,7 +21,8 @@
 struct PEMU_guest_os pemu_guest_os;
 
 void setup_guest_os_values() {
-   system("pwd");
+   // system("pwd"); -- DEBUG
+// TODO: Change to use ENV_VAR to get path for guest_os_values.txt! More easily workable in new work environments.
    FILE* file = fopen ("../../guest_os_values.txt", "r");
    int i = 0;
    size_t read = 0;
@@ -80,33 +81,13 @@ static target_ulong get_pgd(target_ulong addr)
 	if (0 == mmaddr) {
 		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr), 
   				sizeof(mmaddr), &mmaddr);
-		//fprintf(stdout, "PDG GETTING => (0 == mmaddr)\r\n");
 	}
-	//struct mm_struct*
+
 	if (0 != mmaddr) {
 	   	PEMU_read_mem(mmaddr + pemu_guest_os.pgdoffset, sizeof(pgd), &pgd);
-		//fprintf(stdout, "PDG GETTING => (0 != mmaddr)\r\n");
 	} else {
 	   	memset(&pgd, 0, sizeof(pgd));
-		//fprintf(stdout, "PDG GETTING => (mmaddr set to 0)\r\n");	
 	}
-
-	/*target_ulong active_mmaddr, active_pgd;
-	PEMU_read_mem(addr + 760, sizeof(mmaddr), &active_mmaddr);
-	
-	if (0 == active_mmaddr)
-		PEMU_read_mem(addr + 760 + sizeof(mmaddr), 
-  				sizeof(mmaddr), &active_mmaddr);
-	//struct mm_struct*
-	if (0 != active_mmaddr)
-	   	PEMU_read_mem(active_mmaddr + pemu_guest_os.pgdoffset, sizeof(pgd), &active_pgd);
-	else
-	   	memset(&active_pgd, 0, sizeof(active_pgd));
-
-	if (pgd != active_pgd) {
-		fprintf(stdout, "PDG NOT EQUAL. pgd: %lu and active_pgd: %lu\r\n", pgd, active_pgd);
-	}*/
-
 
 	return pgd;
 }
@@ -175,9 +156,6 @@ int PEMU_find_process(void *opaque)
 	char comm[512];
 	int count = 0;
 	int pid = -1;
-	//struct task_struct task_struct_;
-	//struct mm_struct mm_struct_;
-	//fprintf(stdout, "Starting PEMU_find_process()\r\n");
 
 	if(!strcmp(pemu_exec_stats.PEMU_binary_name, "")) {
 		return 0;
@@ -189,12 +167,14 @@ int PEMU_find_process(void *opaque)
 	  	get_name(nextaddr, 16, comm);
 		get_mem_location(nextaddr, pemu_guest_os.pidoffset, sizeof(int), (void*)&pid);
 
+		// THIS PRINTS OUT ALL THE RUNNING PROCESSES. USE FOR DEBUGGING. MIGHT MAKE INTO A PIN FUNCTIONS.
 		/*fprintf(stdout, "%d: ", pid);
 		for (int yx = 0; yx < 16; yx++) {
 			fprintf(stdout, "%c", comm[yx]);
 		}
 	        fprintf(stdout, " ==> 0x%lx\r\n", (get_pgd(nextaddr) - 0xc0000000));
 		*/
+		
 
 		if(!strncmp(comm, pemu_exec_stats.PEMU_binary_name, 6)) {
 		//	get_mem_location(nextaddr, 0, sizeof(task_struct), (void*)&task_struct_);
@@ -205,8 +185,6 @@ int PEMU_find_process(void *opaque)
 	}while(nextaddr != pemu_guest_os.taskaddr);
 
 	if(nextaddr != pemu_guest_os.taskaddr){
-		//get_mem_location(nextaddr, task_struct_.mm, sizeof(mm_struct), (void*)&mm_struct_);
-		//fprintf(stdout, "Testing Structs => struct_mm_pgd: %p vs get_pgd(): 0x%x", mm_struct_.pgd, get_pgd(nextaddr));
 		pemu_exec_stats.PEMU_cr3 = get_pgd(nextaddr) - 0xc0000000;
 		pemu_exec_stats.PEMU_task_addr = nextaddr;
 		fprintf(stdout, "finding process\t%s\t0x%x\t0x%x\n", comm, pemu_exec_stats.PEMU_pid, pemu_exec_stats.PEMU_cr3);

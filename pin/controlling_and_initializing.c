@@ -112,8 +112,7 @@ VOID PIN_Detach ()
 
 VOID PIN_StartProgram()
 {
-	fprintf(stdout, "PIN Staring Program\r\n");
-	//pemu_exec_stats.PEMU_start = 1;
+	//fprintf(stdout, "PIN Staring Program\r\n");
 	pemu_exec_stats.PEMU_introspect = 0;
 	//sig_finish(0);
 	post_sem_1();

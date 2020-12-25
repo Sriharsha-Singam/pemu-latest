@@ -11,13 +11,9 @@
 #define PEMU_H
 
 #include <xed-interface.h>
-#include "qemu-pemu.h"
-#include "pin/pin.h"
 #include "qemu/osdep.h"
-#include "monitor/monitor.h"
 #include "cpu.h"
-#include "pin/pin_objs.h"
-#include "pin/instrumentation_arguments.h"
+#include "pin/pin.h"
 
 
 struct PEMU_EXEC_STATS;
@@ -100,6 +96,6 @@ struct PEMU_HOOK_FUNCS {
 void PEMU_update_cpux86(CPUX86State* env);
 void PEMU_update_cpu(CPUState *env);
 
-int PEMU_init(CPUState* env, Monitor* monitor);
+int PEMU_init(CPUState* env);
 int PEMU_exit(void);
 #endif

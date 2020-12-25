@@ -28,7 +28,7 @@ set +e
 set -e
 mkdir -p qemu/build
 pushd qemu/build
-sudo ../configure --prefix=`pwd` --target-list=i386-softmmu,x86_64-softmmu --disable-vnc --disable-strip --disable-werror --enable-sdl --enable-debug
+sudo ../configure --prefix=`pwd` --target-list=i386-softmmu --disable-vnc --disable-strip --disable-werror --enable-sdl --enable-debug
 sudo make
 sudo make install
 popd

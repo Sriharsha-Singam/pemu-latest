@@ -7,13 +7,11 @@
 #
 */
 
+#include <stdio.h>
 
 #include "pemu.h"
-#include "linux.h"
-#include "pin/pin_qemu.h"
-#include "pemu_helper.h"
-#include <stdio.h>
-#include "pemu-disas/disas.h"
+
+void setup_guest_os_values();
 
 struct PEMU_EXEC_STATS pemu_exec_stats = {0};
 struct PEMU_HOOK_FUNCS pemu_hook_funcs = {0};
@@ -22,7 +20,6 @@ struct PEMU_INST pemu_inst = {0};
 
 CPUState* pemu_cpu;
 CPUX86State* pemu_cpu_state;
-Monitor* pemu_debug_monitor;
 
 void init_inst(void)
 {
@@ -54,8 +51,7 @@ inline void inst_update(char *buf)
 }
 
 void PEMU_update_cpux86(CPUX86State* env) {
-	if (!pemu_exec_stats.PEMU_start) return;
-	fprintf(stdout, "UPDATING pemu CPUX86State cr[3] = 0x%lx\r\n", env->cr[3]);    
+	if (!pemu_exec_stats.PEMU_start) return;   
 	pemu_cpu_state = env;
 }
 
@@ -64,17 +60,12 @@ void PEMU_update_cpu(CPUState* env) {
     pemu_cpu_state = pemu_cpu->env_ptr;
 }
 
-int PEMU_init(CPUState* env, Monitor* monitor)
+int PEMU_init(CPUState* env)
 {
-	//pemu_exec_stats.PEMU_hook_sys_call = -1;
 	
-    setup_guest_os_values();
-    
-    PEMU_update_cpu(env);
+        setup_guest_os_values();
+        PEMU_update_cpu(env);
 
-    pemu_debug_monitor = monitor;
-
-    monitor_printf(monitor, "Running PEMU Init() -- CPUState=%p and CPUX86State=%p\n", pemu_cpu, pemu_cpu_state);
 	init_pin_regmapping(env);
 	init_inst();
 	init_bbl();
