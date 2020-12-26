@@ -25,13 +25,8 @@ set +e
 #popd
 
 # Build QEMU Part
-set -e
-mkdir -p qemu/build
-pushd qemu/build
-sudo ../configure --prefix=`pwd` --target-list=i386-softmmu --disable-vnc --disable-strip --disable-werror --enable-sdl --enable-debug
-sudo make
-sudo make install
-popd
+sudo chmod +x build_pemu.sh
+./build_pemu.sh
 
 # Build ELF-PARSER
 #mkdir -p pemu-disas/elf-parser/build
@@ -47,7 +42,9 @@ sudo make
 popd
 
 # Build Linux Kernel
+git clone https://github.com/Sriharsha-Singam/buildroot.git --recurse-submodules
 pushd buildroot
+git checkout 2020.11.x --recurse-submodules
 cp ../.config .
 touch defconfig
 make savedefconfig

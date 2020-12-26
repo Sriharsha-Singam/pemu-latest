@@ -1,37 +1,98 @@
+/*
+#
+#  Copyright © 2014 The University of Texas System Board of Regents, All Rights Reserved.
+#       Author:        The Systems and Software Security (S3) Laboratory.
+#         Date:        March 12, 2015
+#      Version:        1.0.0
+#
+*/
 
-};
+#include <ctype.h>
+#include <inttypes.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/types.h>
+#include <linux/sched.h>
+#include "pemu.h"
+#include "linux.h"
+
+//OS specific information:
+struct PEMU_guest_os pemu_guest_os;
+
+void setup_guest_os_values() {
+   // system("pwd"); -- DEBUG
+// TODO: Change to use ENV_VAR to get path for guest_os_values.txt! More easily workable in new work environments.
+
+   char guest_os_values_path[150] = {0};
+   strcpy(guest_os_values_path, pemu_path);
+   strcat(guest_os_values_path, "/guest_os_values.txt");
+
+   FILE* file = fopen (guest_os_values_path, "r");
+   int i = 0;
+   size_t read = 0;
+   char * line = NULL;
+   size_t len = 0;
+   int task_struct_root = 0;
+   int counter = 0;
+   int values[5] = {0};
+   while ((read = getline(&line, &len, file)) != -1) {
+        if (task_struct_root == 0) {  
+            sscanf(line, "%x", &task_struct_root);
+            printf("0x%x\n", task_struct_root);
+        } else {
+            values[counter] = atoi(line);
+            printf("%i\n", values[counter]);
+            counter++;
+        }
+   }
+   pemu_guest_os.taskaddr = task_struct_root;
+   pemu_guest_os.listoffset = values[0];
+   pemu_guest_os.mmoffset = values[1];
+   pemu_guest_os.pgdoffset = values[2];
+   pemu_guest_os.commoffset = values[3];
+   pemu_guest_os.pidoffset = values[4];
+   fclose (file);   
+}
 
 ///////////////////////////
-static void get_name(uint32_t addr, int size, char *buf)
+static void get_mem_location(target_ulong addr, int offset, int size, void *buf)
+{
+   PEMU_read_mem(addr + offset, size, buf);
+}
+
+static void get_name(target_ulong addr, int size, char *buf)
 {
    PEMU_read_mem(addr + pemu_guest_os.commoffset, 16, buf);
 }
 
-static uint32_t next_task_struct(uint32_t addr)
+static target_ulong next_task_struct(target_ulong addr)
 {
-	uint32_t retval;
-	uint32_t next;
+	target_ulong retval;
+	target_ulong next;
 
-    PEMU_read_mem(addr + pemu_guest_os.listoffset + sizeof(uint32_t),
-			sizeof(uint32_t), &next);
+    PEMU_read_mem(addr + pemu_guest_os.listoffset + sizeof(target_ulong), 
+			sizeof(target_ulong), &next);
     retval = next - pemu_guest_os.listoffset;
 
   	return retval;
 }
 
-static uint32_t get_pgd(uint32_t addr)
+static target_ulong get_pgd(target_ulong addr)
 {
-	uint32_t mmaddr, pgd;
+	target_ulong mmaddr, pgd;
 	PEMU_read_mem(addr + pemu_guest_os.mmoffset, sizeof(mmaddr), &mmaddr);
-
-	if (0 == mmaddr)
-		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr),
+	
+	if (0 == mmaddr) {
+		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr), 
   				sizeof(mmaddr), &mmaddr);
+	}
 
-	if (0 != mmaddr)
+	if (0 != mmaddr) {
 	   	PEMU_read_mem(mmaddr + pemu_guest_os.pgdoffset, sizeof(pgd), &pgd);
-	else
+	} else {
 	   	memset(&pgd, 0, sizeof(pgd));
+	}
 
 	return pgd;
 }
@@ -43,14 +104,14 @@ static uint32_t get_first_mmap(uint32_t addr)
 	PEMU_read_mem(addr + pemu_guest_os.mmoffset, sizeof(mmaddr), &mmaddr);
 
 	if (0 == mmaddr)
-		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr),
+		PEMU_read_mem(addr + pemu_guest_os.mmoffset + sizeof(mmaddr), 
                    sizeof(mmaddr), &mmaddr);
 
   	if (0 != mmaddr)
 	 	PEMU_read_mem(mmaddr, sizeof(mmap), &mmap);
 	else
 		memset(&mmap, 0, sizeof(mmap));
-
+	
 	return mmap;
 }
 
@@ -96,9 +157,10 @@ static uint32_t get_vmflags(uint32_t addr)
 
 int PEMU_find_process(void *opaque)
 {
-	uint32_t nextaddr = 0;
+	target_ulong nextaddr = 0;
 	char comm[512];
 	int count = 0;
+	int pid = -1;
 
 	if(!strcmp(pemu_exec_stats.PEMU_binary_name, "")) {
 		return 0;
@@ -108,8 +170,22 @@ int PEMU_find_process(void *opaque)
 		if (++count > 1000)
 			return 0;
 	  	get_name(nextaddr, 16, comm);
-		if(!strncmp(comm, pemu_exec_stats.PEMU_binary_name, 6))
+		get_mem_location(nextaddr, pemu_guest_os.pidoffset, sizeof(int), (void*)&pid);
+
+		// THIS PRINTS OUT ALL THE RUNNING PROCESSES. USE FOR DEBUGGING. MIGHT MAKE INTO A PIN FUNCTIONS.
+		/*fprintf(stdout, "%d: ", pid);
+		for (int yx = 0; yx < 16; yx++) {
+			fprintf(stdout, "%c", comm[yx]);
+		}
+	        fprintf(stdout, " ==> 0x%lx\r\n", (get_pgd(nextaddr) - 0xc0000000));
+		*/
+		
+
+		if(!strncmp(comm, pemu_exec_stats.PEMU_binary_name, 6)) {
+		//	get_mem_location(nextaddr, 0, sizeof(task_struct), (void*)&task_struct_);
 			break;
+		}
+		
 		nextaddr = next_task_struct(nextaddr);
 	}while(nextaddr != pemu_guest_os.taskaddr);
 

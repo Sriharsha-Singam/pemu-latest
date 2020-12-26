@@ -26,6 +26,7 @@ extern struct PEMU_INST pemu_inst;
 extern CPUX86State* pemu_cpu_state;
 extern CPUState* pemu_cpu;
 extern Monitor* pemu_debug_monitor;
+extern char* pemu_path;
 
 struct PIN_EXEC_STATS {
 	uint32_t pin_args[IARG_LAST];

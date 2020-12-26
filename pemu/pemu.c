@@ -20,6 +20,7 @@ struct PEMU_INST pemu_inst = {0};
 
 CPUState* pemu_cpu;
 CPUX86State* pemu_cpu_state;
+char* pemu_path;
 
 void init_inst(void)
 {
@@ -62,7 +63,9 @@ void PEMU_update_cpu(CPUState* env) {
 
 int PEMU_init(CPUState* env)
 {
-	
+	pemu_path = getenv("PEMU_PATH");
+	if (pemu_path == NULL) fprintf(stdout, "ERROR: PEMU_PATH is not valid. Please set this value otherwise PEMU will fail.\r\n");
+
         setup_guest_os_values();
         PEMU_update_cpu(env);
 
